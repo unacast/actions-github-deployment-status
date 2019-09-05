@@ -1,3 +1,5 @@
+export DOCKER_REPO=unacast
+
 include docker.mk
 include help.mk
 include shell.mk
