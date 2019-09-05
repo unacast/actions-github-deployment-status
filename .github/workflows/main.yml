@@ -7,31 +7,19 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Test
-      uses: actions/action-builder/shell@master
-      with:
-        entrypoint: make
-        args: test
+      run: apt-get install bats && make test
     - name: Lint
-      uses: actions/action-builder/shell@master
-      with:
-        entrypoint: make
-        args: lint
+      run: make lint
     - name: Docker build
-      uses: actions/action-builder/docker@master
-      with:
-        entrypoint: make
-        args: build
+      run: make build
     - name: Publish Filter
       uses: actions/bin/filter@master
       with:
         args: branch master
     - name: Docker Login
-      uses: actions/docker/login@master
       env:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      run: echo "$DOCKER_PASSWORD" | docker login "$DOCKER_REGISTRY_URL" -u "$DOCKER_USERNAME" --password-stdin
     - name: Publish
-      uses: actions/action-builder/docker@master
-      with:
-        entrypoint: make
-        args: publish
+      run: make publish
