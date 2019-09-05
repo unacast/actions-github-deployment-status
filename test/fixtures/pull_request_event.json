@@ -1,0 +1,17 @@
+{
+  "action": "closed",
+  "pull_request": {
+    "merged": "false",
+    "labels": [
+      {
+        "name": "urgent"
+      },
+      {
+        "name": "bug"
+      }
+    ],
+    "user": {
+      "login": "pr-user"
+    }
+  }
+}

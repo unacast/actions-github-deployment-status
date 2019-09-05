@@ -1,0 +1,5 @@
+#!/bin/sh
+
+BASEDIR=$(dirname "$0")
+
+"${BASEDIR}"/JSON.sh < "${GITHUB_EVENT_PATH}" | grep '\["deployment","id"]' | cut -f2

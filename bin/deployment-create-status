@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+# Usage:
+#   deployment-create-status <state> <description>
+#
+# Arguments:
+#   $1 - The deployment state
+#   $2 - The deployment description
+#
+set -e
+
+BASEDIR=$(dirname "$0")
+DEPLOYMENT_ID=$("${BASEDIR}"/deployment-get-id)
+
+DEPLOY_STATE=$(echo "${1}"|tr "[:upper:]" "[:lower:]")
+DEPLOY_DESC="${2}"
+
+if [ "$DEPLOY_STATE" = "cancelled" ]; then
+	DEPLOY_STATE="inactive"
+	ACCEPT_HEADER="application/vnd.github.ant-man-preview+json"
+else
+	ACCEPT_HEADER="application/vnd.github.flash-preview+json"
+fi
+
+ACCEPT_HEADER="application/vnd.github.flash-preview+json"
+
+
+[ -n "${DEPLOY_DESC}" ] || DEPLOY_DESC="Deploying from GitHub Actions"
+
+echo "Setting status to ${DEPLOY_STATE} for deployment-id '${DEPLOYMENT_ID}'"
+wget -O-- \
+    --post-data "{\"state\":\"${DEPLOY_STATE}\", \"target_url\":\"https://github.com/${GITHUB_REPOSITORY}/actions\", \"description\":\"${DEPLOY_DESC}\"}" \
+    --header "Authorization: token ${GITHUB_TOKEN}" \
+    --header "Content-Type: text/json; charset=utf-8" \
+    --header "Accept: ${ACCEPT_HEADER}" \
+    https://api.github.com/repos/"${GITHUB_REPOSITORY}"/deployments/"${DEPLOYMENT_ID}"/statuses
