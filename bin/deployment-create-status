@@ -30,7 +30,7 @@ ACCEPT_HEADER="application/vnd.github.flash-preview+json"
 echo "Setting status to ${DEPLOY_STATE} for deployment-id '${DEPLOYMENT_ID}'"
 wget -O-- \
     --post-data "{\"state\":\"${DEPLOY_STATE}\", \"target_url\":\"https://github.com/${GITHUB_REPOSITORY}/actions\", \"description\":\"${DEPLOY_DESC}\"}" \
-    --header "Authorization: token ${GITHUB_TOKEN}" \
+    --header "Authorization: token ${INPUT_GITHUB_TOKEN}" \
     --header "Content-Type: text/json; charset=utf-8" \
     --header "Accept: ${ACCEPT_HEADER}" \
     https://api.github.com/repos/"${GITHUB_REPOSITORY}"/deployments/"${DEPLOYMENT_ID}"/statuses

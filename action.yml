@@ -1,0 +1,14 @@
+name: 'Create Github Deployment Status'
+description: 'Update the status of a deployment by creating a new status'
+author: 'Unacast'
+inputs: 
+  repo-token:
+    description: 'The GITHUB_TOKEN secret'
+    required: true
+  status:
+    description: 'The status to create. Can be one of error, failure, inactive, in_progress, queued pending, or success'
+    default: '${{ job.status  }}'
+runs:
+  using: 'docker'
+  image: 'docker://unacast/actions-github-deployment-status'
+  args: ['${{ inputs.status }}']
