@@ -11,7 +11,9 @@ jobs:
       with:
         args: test/deployment-get-id.bats
     - name: Lint
-      run: make lint
+      uses: docker://koalaman/shellcheck
+      with:
+        args: bin/deployment-create-status bin/deployment-get-id
     - name: Docker build
       run: make build
     - name: Publish Filter
