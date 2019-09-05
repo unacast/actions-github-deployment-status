@@ -7,7 +7,9 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Test
-      run: apt-get install bats && make test
+      uses: docker://bats/bats      
+      with:
+        args: test/deployment-get-id.bats
     - name: Lint
       run: make lint
     - name: Docker build
