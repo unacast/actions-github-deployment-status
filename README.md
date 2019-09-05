@@ -2,17 +2,17 @@
 
 This Github actions adds functions for creating a status on the github deployment api.
 
+It is a small wrapper for your workflows to use the Github Deployment Status API https://developer.github.com/v3/repos/deployments/#create-a-deployment-status
+
 ## Usage
 
 For example use this at the end of your job like this:
 
 ```
-...
 - name: update deploy status
     if: always()
-    uses: docker://unacast/actions-github-deployment-status
+    uses: unacast/actions-github-deployment-status@master
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    with:          
-      args: ${{ job.status }}
+      github_token: ${{ secrets.GITHUB_TOKEN }}
+      status: ${{ job.status }}
 ```
