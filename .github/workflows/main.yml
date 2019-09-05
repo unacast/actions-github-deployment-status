@@ -7,11 +7,20 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Test
-      run: make test
+      uses: actions/action-builder/shell@master
+      with:
+        entrypoint: make
+        args: test
     - name: Lint
-      run: make lint
+      uses: actions/action-builder/shell@master
+      with:
+        entrypoint: make
+        args: lint
     - name: Docker build
-      run: make build
+      uses: actions/action-builder/docker@master
+      with:
+        entrypoint: make
+        args: build
     - name: Publish Filter
       uses: actions/bin/filter@master
       with:
