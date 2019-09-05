@@ -17,11 +17,11 @@ jobs:
     - name: Docker build
       run: make build
     - name: Docker Login
-      if: github.ref == "master"
+      if: github.ref == 'master'
       env:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - name: Publish
-      if: github.ref == "master"
+      if: github.ref == 'master'
       run: make publish
