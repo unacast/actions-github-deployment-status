@@ -15,7 +15,7 @@ jobs:
       with:
         args: bin/deployment-create-status bin/deployment-get-id
     - name: Docker build
-      run: make build
+      run: docker build -t actions-github-deployment-status -f build-dockerfile
     - name: Docker Login
       if: github.ref == 'refs/heads/master'
       env:
@@ -24,4 +24,6 @@ jobs:
       run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - name: Publish
       if: github.ref == 'refs/heads/master'
-      run: make publish
+      run: |
+        docker tag actions-github-deployment-status unacast/actions-github-deployment-status
+        docker push unacast/actions-github-deployment-status
