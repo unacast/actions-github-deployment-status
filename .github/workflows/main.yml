@@ -15,7 +15,7 @@ jobs:
       with:
         args: bin/deployment-create-status bin/deployment-get-id
     - name: Docker build
-      run: docker build -t actions-github-deployment-status -f build-dockerfile
+      run: docker build -t actions-github-deployment-status . -f build-dockerfile
     - name: Docker Login
       if: github.ref == 'refs/heads/master'
       env:
