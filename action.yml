@@ -10,7 +10,7 @@ inputs:
     required: true
 runs:
   using: 'docker'
-  image: 'docker://unacast/actions-github-deployment-status'
+  image: 'Dockerfile'
   args: ['${{ inputs.status }}']
 branding:
   icon: 'send'  
