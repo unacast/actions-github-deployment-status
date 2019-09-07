@@ -10,6 +10,7 @@ inputs:
     required: true
 runs:
   using: 'docker'
+  image: 'Dockerfile'
   args: ['${{ inputs.status }}']
 branding:
   icon: 'send'  
