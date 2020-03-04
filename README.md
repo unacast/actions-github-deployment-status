@@ -11,8 +11,8 @@ For example use this at the end of your job like this:
 ```
 - name: update deploy status
     if: always()
-    uses: unacast/actions-github-deployment-status@v0.3.0
-    with:
+    uses: unacast/actions-github-deployment-status@[version]
+    with:e
       github_token: ${{ secrets.GITHUB_TOKEN }}
       status: ${{ job.status }}
 ```
