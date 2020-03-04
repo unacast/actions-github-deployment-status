@@ -36,7 +36,7 @@ jobs:
           fi
 
       - name: Create Release
-        uses: "marvinpinto/action-automatic-releases@latest"
+        uses: "marvinpinto/action-automatic-releases@v0.3.0"
         if: steps.check-tag.outputs.match == 'true'
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
