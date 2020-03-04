@@ -1,29 +1,41 @@
+---
+name: Test, lint and build
+
 on: push
-name: Build
+
 jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Test
-      uses: docker://bats/bats      
-      with:
-        args: test/deployment-get-id.bats
-    - name: Lint
-      uses: docker://koalaman/shellcheck
-      with:
-        args: bin/deployment-create-status bin/deployment-get-id
-    - name: Docker build
-      run: docker build -t actions-github-deployment-status .
-    - name: Docker Login
-      if: github.ref == 'refs/heads/master'
-      env:
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - name: Publish
-      if: github.ref == 'refs/heads/master'
-      run: |
-        docker tag actions-github-deployment-status unacast/actions-github-deployment-status
-        docker push unacast/actions-github-deployment-status
+      - uses: actions/checkout@master
+      - name: Test
+        uses: docker://bats/bats
+        with:
+          args: test/deployment-get-id.bats
+      - name: Lint
+        uses: docker://koalaman/shellcheck
+        with:
+          args: bin/deployment-create-status bin/deployment-get-id
+      - name: Docker build
+        run: docker build -t actions-github-deployment-status .
+
+  gh_tagged_release:
+    needs: test
+    runs-on: ubuntu-latest
+
+    if: github.ref == "v*"
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: |
+            action.yml
+            bin/*
+            Dockerfile

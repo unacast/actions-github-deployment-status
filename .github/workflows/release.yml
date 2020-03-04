@@ -1,0 +1,9 @@
+---
+name: Tagged release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
