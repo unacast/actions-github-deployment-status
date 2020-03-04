@@ -18,23 +18,29 @@ jobs:
           args: bin/deployment-create-status bin/deployment-get-id
       - name: Docker build
         run: docker build -t actions-github-deployment-status .
-#  gh_tagged_release:
-#    name: Tagged release
-#    needs: test
-#    runs-on: ubuntu-latest
-#
-#    if: github.ref == "v*"
-#
-#    steps:
-#      - name: Checkout source code
-#        uses: actions/checkout@v2
-#
-#      - name: Release
-#        uses: marvinpinto/action-automatic-releases@latest
-#        with:
-#          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-#          prerelease: false
-#          files: |
-#            action.yml
-#            bin/*
-#            Dockerfile
+
+  gh-tagged-release:
+    name: Tagged release
+    needs: test
+    runs-on: ubuntu-latest
+
+    if: github.ref == "v*"
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Build Release # This would actually build your project, using zip for an example artifact
+        run: |
+          zip -r actions-github-deployment-status-${{ github.ref }} action.yml Dockerfile bin/
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: true
+          prerelease: false
