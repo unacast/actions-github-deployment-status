@@ -27,6 +27,7 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
+
       - name: Check Tag
         id: check-tag
         run: |
@@ -35,13 +36,12 @@ jobs:
           fi
 
       - name: Create Release
+        uses: "marvinpinto/action-automatic-releases@latest"
         if: steps.check-tag.outputs.match == 'true'
-        id: create_release
-        uses: actions/create-release@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: true
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
+          files: |
+            Dockerfile
+            action.yml
+            bin/
