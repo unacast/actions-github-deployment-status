@@ -41,7 +41,3 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
-          files: |
-            Dockerfile
-            action.yml
-            bin/
