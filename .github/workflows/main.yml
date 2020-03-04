@@ -24,17 +24,18 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
 
-    if: github.ref  == 'v[0-9]+.[0-9]+.[0-9]+'
-
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
-
-      - name: Build Release # This would actually build your project, using zip for an example artifact
+      - name: Check Tag
+        id: check-tag
         run: |
-          zip -r actions-github-deployment-status-${{ github.ref }} action.yml Dockerfile bin/
+          if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo ::set-output name=match::true
+          fi
 
       - name: Create Release
+        if: steps.check-tag.outputs.match == 'true'
         id: create_release
         uses: actions/create-release@v1.0.1
         env:
