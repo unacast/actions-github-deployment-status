@@ -8,10 +8,14 @@ inputs:
   status:
     description: 'The status to create. Can be one of error, failure, inactive, in_progress, queued pending, or success'
     required: true
+  description:
+    description: 'The description to create. Restricted to 140 chars'
+    required: false
+    default: ""
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args: ['${{ inputs.status }}']
+  args: ['${{ inputs.status }}', '${{ inputs.description }}']
 branding:
   icon: 'send'  
   color: 'green'
