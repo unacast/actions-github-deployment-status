@@ -12,7 +12,7 @@ For example use this at the end of your job like this:
 - name: update deploy status
     if: always()
     uses: unacast/actions-github-deployment-status@[version]
-    with:e
+    with:
       github_token: ${{ secrets.GITHUB_TOKEN }}
       status: ${{ job.status }}
 ```
