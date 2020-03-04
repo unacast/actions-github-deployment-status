@@ -18,24 +18,23 @@ jobs:
           args: bin/deployment-create-status bin/deployment-get-id
       - name: Docker build
         run: docker build -t actions-github-deployment-status .
-
-  gh_tagged_release:
-    name: Tagged release
-    needs: test
-    runs-on: ubuntu-latest
-
-    if: github.ref == "v*"
-
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v2
-
-      - name: Release
-        uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
-          files: |
-            action.yml
-            bin/*
-            Dockerfile
+#  gh_tagged_release:
+#    name: Tagged release
+#    needs: test
+#    runs-on: ubuntu-latest
+#
+#    if: github.ref == "v*"
+#
+#    steps:
+#      - name: Checkout source code
+#        uses: actions/checkout@v2
+#
+#      - name: Release
+#        uses: marvinpinto/action-automatic-releases@latest
+#        with:
+#          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+#          prerelease: false
+#          files: |
+#            action.yml
+#            bin/*
+#            Dockerfile
