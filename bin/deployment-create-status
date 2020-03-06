@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Usage:
 #   deployment-create-status <state> <description>
@@ -14,6 +14,13 @@ DEPLOYMENT_ID=$("${BASEDIR}"/deployment-get-id)
 
 DEPLOY_STATE=$(echo "${1}"|tr "[:upper:]" "[:lower:]")
 DEPLOY_DESC="${2}"
+
+VALID_STATES=("error" "failure" "inactive" "in_progress" "queued" "pending" "success")
+
+if [[ $(echo "${VALID_STATES[@]}" | grep -o "${1}" | wc -w) -eq 0 ]]; then
+  echo "The valid deployment states are: ${VALID_STATES[*]}";
+  exit 1;
+fi;
 
 if [ "$DEPLOY_STATE" = "cancelled" ]; then
 	DEPLOY_STATE="inactive"
