@@ -15,4 +15,5 @@ For example use this at the end of your job like this:
     with:
       github_token: ${{ secrets.GITHUB_TOKEN }}
       status: ${{ job.status }}
+      description: "The description to create. Restricted to 140 chars"
 ```
