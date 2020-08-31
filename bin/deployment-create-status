@@ -11,6 +11,7 @@ set -e
 
 BASEDIR=$(dirname "$0")
 DEPLOYMENT_ID=$("${BASEDIR}"/deployment-get-id)
+GITHUB_WORKFLOW_URL=https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
 
 DEPLOY_STATE=$(echo "${1}"|tr "[:upper:]" "[:lower:]")
 DEPLOY_DESC="${2}"
@@ -29,7 +30,7 @@ ACCEPT_HEADER="application/vnd.github.flash-preview+json"
 
 echo "Setting status to ${DEPLOY_STATE} for deployment-id '${DEPLOYMENT_ID}'"
 wget -O-- \
-    --post-data "{\"state\":\"${DEPLOY_STATE}\", \"target_url\":\"https://github.com/${GITHUB_REPOSITORY}/actions\", \"description\":\"${DEPLOY_DESC}\"}" \
+    --post-data "{\"state\":\"${DEPLOY_STATE}\", \"target_url\":\"https://github.com/${GITHUB_REPOSITORY}/actions\", \"description\":\"${DEPLOY_DESC}\", \"log_url\":\"${GITHUB_WORKFLOW_URL}\"}" \
     --header "Authorization: token ${INPUT_GITHUB_TOKEN}" \
     --header "Content-Type: text/json; charset=utf-8" \
     --header "Accept: ${ACCEPT_HEADER}" \
