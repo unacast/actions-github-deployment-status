@@ -18,26 +18,3 @@ jobs:
           args: bin/deployment-create-status bin/deployment-get-id
       - name: Docker build
         run: docker build -t actions-github-deployment-status .
-
-  gh-tagged-release:
-    name: Tagged release
-    needs: test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v2
-
-      - name: Check Tag
-        id: check-tag
-        run: |
-          if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-              echo ::set-output name=match::true
-          fi
-
-      - name: Create Release
-        uses: "marvinpinto/action-automatic-releases@v0.3.0"
-        if: steps.check-tag.outputs.match == 'true'
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
