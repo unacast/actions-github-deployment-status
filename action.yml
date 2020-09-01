@@ -12,10 +12,18 @@ inputs:
     description: 'The description to create. Restricted to 140 chars'
     required: false
     default: ""
+  environment_url:
+    description: 'Sets the URL for accessing your environment'
+    required: false
+    default: ""
+  auto_inactive:
+    description: 'Adds a new inactive status to all prior non-transient, non-production environment deployments with the same repository and environment name as the created status's deployment. An inactive status is only added to deployments that had a success state.'
+    required: false
+    default: true    
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args: ['${{ inputs.status }}', '${{ inputs.description }}']
+  args: ['${{ inputs.status }}', '${{ inputs.description }}', '${{ inputs.environment_url }}', ${{ inputs.auto_inactive }}]
 branding:
   icon: 'send'  
   color: 'green'
