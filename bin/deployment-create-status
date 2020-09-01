@@ -6,6 +6,8 @@
 # Arguments:
 #   $1 - The deployment state
 #   $2 - The deployment description
+#   $3 - The deployment environment_url
+#   $4 - auto_inactive flag
 #
 set -e
 
@@ -15,15 +17,16 @@ GITHUB_WORKFLOW_URL=https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_R
 
 DEPLOY_STATE=$(echo "${1}"|tr "[:upper:]" "[:lower:]")
 DEPLOY_DESC="${2}"
+DEPLOY_ENVIRONMENT_URL="${3}"
+DEPLOY_AUTO_INACTIVE="${4}"
 
 ACCEPT_HEADER="application/vnd.github.ant-man-preview+json,application/vnd.github.flash-preview+json"
-
 
 [ -n "${DEPLOY_DESC}" ] || DEPLOY_DESC="Deploying from GitHub Actions"
 
 echo "Setting status to ${DEPLOY_STATE} for deployment-id '${DEPLOYMENT_ID}'"
 wget -O-- \
-    --post-data "{\"state\":\"${DEPLOY_STATE}\", \"target_url\":\"https://github.com/${GITHUB_REPOSITORY}/actions\", \"description\":\"${DEPLOY_DESC}\", \"log_url\":\"${GITHUB_WORKFLOW_URL}\"}" \
+    --post-data "{\"state\":\"${DEPLOY_STATE}\", \"description\":\"${DEPLOY_DESC}\", \"log_url\":\"${GITHUB_WORKFLOW_URL}\", \"auto_inactive\":${DEPLOY_AUTO_INACTIVE}, \"environment_url\":\"${DEPLOY_ENVIRONMENT_URL}\"}" \
     --header "Authorization: token ${INPUT_GITHUB_TOKEN}" \
     --header "Content-Type: text/json; charset=utf-8" \
     --header "Accept: ${ACCEPT_HEADER}" \
