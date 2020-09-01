@@ -26,7 +26,7 @@ ACCEPT_HEADER="application/vnd.github.ant-man-preview+json,application/vnd.githu
 
 echo "Setting status to ${DEPLOY_STATE} for deployment-id '${DEPLOYMENT_ID}'"
 wget -O-- \
-    --post-data "{\"state\":\"${DEPLOY_STATE}\", \"description\":\"${DEPLOY_DESC}\", \"log_url\":\"${GITHUB_WORKFLOW_URL}\", \"environment_url\":\"${DEPLOY_ENVIRONMENT_URL}\"}" \
+    --post-data "{\"state\":\"${DEPLOY_STATE}\", \"description\":\"${DEPLOY_DESC}\", \"log_url\":\"${GITHUB_WORKFLOW_URL}\", \"auto_inactive\":${DEPLOY_AUTO_INACTIVE}, \"environment_url\":\"${DEPLOY_ENVIRONMENT_URL}\"}" \
     --header "Authorization: token ${INPUT_GITHUB_TOKEN}" \
     --header "Content-Type: text/json; charset=utf-8" \
     --header "Accept: ${ACCEPT_HEADER}" \
