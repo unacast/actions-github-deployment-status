@@ -23,7 +23,7 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args: ['${{ inputs.status }}', '${{ inputs.description }}', '${{ inputs.environment_url }}', ${{ inputs.auto_inactive }}]
+  args: ['${{ inputs.status }}', '${{ inputs.description }}', '${{ inputs.environment_url }}', '${{ inputs.auto_inactive }}']
 branding:
   icon: 'send'  
   color: 'green'
