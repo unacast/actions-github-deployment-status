@@ -17,7 +17,7 @@ inputs:
     required: false
     default: ""
   auto_inactive:
-    description: 'Adds a new inactive status to all prior non-transient, non-production environment deployments with the same repository and environment name as the created status's deployment. An inactive status is only added to deployments that had a success state.'
+    description: "Adds a new inactive status to all prior non-transient, non-production environment deployments with the same repository and environment name as the created status's deployment. An inactive status is only added to deployments that had a success state."
     required: false
     default: true    
 runs:
