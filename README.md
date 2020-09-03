@@ -35,7 +35,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
           description: "Deployed to some magic"
-          environment_url: '${{ DEPLOY_ENVIRONMENT }}'
+          environment_url: '${{ env.DEPLOY_ENVIRONMENT }}'
 ```
 
 ### Inputs
