@@ -26,7 +26,7 @@ jobs:
 ... <Do your deploy stuff>
       - name: Set an environment
         run: |
-          echo '::set-env name=DEPLOY_ENVIRONMENT::http://halloi.lol'
+          echo 'DEPLOY_ENVIRONMENT=http://halloi.lol' >> $GITHUB_ENV
 
       - name: Update result to Deployment API
         if: always()
